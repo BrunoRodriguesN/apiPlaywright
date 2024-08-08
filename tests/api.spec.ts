@@ -45,5 +45,31 @@ test.describe.parallel("API Testing", () => {
             console.log(responseBody)
     })
 
+    test("POST Request -Login", async ({ request }) => {
+        const response = await request.post (`${baseURL}/login`, {
+            data: {
+                email: 'eve.holt@reqres.in',
+               password: 'cityslicka',  
+            },
+        })
+        
+            const responseBody = JSON.parse(await response.text())
+            expect(response.status()).toBe(200)
+            expect(responseBody.token).toBeTruthy
+    })
+    
+    
+    test.only("POST Request -Login FAIL ", async ({ request }) => {
+        const response = await request.post (`${baseURL}/login`, {
+            data: {
+                email: 'eve.holt@reqres.in',
+              // password: 'cityslicka',  
+            },
+        })
+        
+            const responseBody = JSON.parse(await response.text())
+            expect(response.status()).toBe(400)
+            expect(responseBody.error).toBe('Missing password')
+    })  
 
 })
