@@ -86,5 +86,11 @@ test.describe.parallel("API Testing", () => {
         expect(responseBody.job).toBe('new job')
         expect(responseBody.updatedAt).toBeTruthy
     })
+    
+    test.only("DELETE Request - Delete User ", async ({request}) => {
+        const response = await request.delete(`${baseURL}/users/2`)
+        expect(response.status()).toBe(204)
+
+    })
 
 })
