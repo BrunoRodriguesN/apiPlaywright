@@ -59,7 +59,7 @@ test.describe.parallel("API Testing", () => {
     })
     
     
-    test.only("POST Request -Login FAIL ", async ({ request }) => {
+    test("POST Request -Login FAIL ", async ({ request }) => {
         const response = await request.post (`${baseURL}/login`, {
             data: {
                 email: 'eve.holt@reqres.in',
@@ -70,6 +70,21 @@ test.describe.parallel("API Testing", () => {
             const responseBody = JSON.parse(await response.text())
             expect(response.status()).toBe(400)
             expect(responseBody.error).toBe('Missing password')
-    })  
+    })
+    
+    test("PUT Request - Update user", async ({request}) => {
+        const response = await request.put (`${baseURL}/users/2`, {
+            data: {
+                name: 'new name',
+                job: 'new job',
+            },
+        })
+        const responseBody = JSON.parse(await response.text())
+
+        expect(response.status()).toBe(200)
+        expect(responseBody.name).toBe('new name')
+        expect(responseBody.job).toBe('new job')
+        expect(responseBody.updatedAt).toBeTruthy
+    })
 
 })
